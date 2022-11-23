@@ -4,6 +4,7 @@ import { toast } from "react-toastify"
 import { useRouter } from "next/router"
 import _ from "lodash"
 import { useSWRConfig } from "swr"
+import { useSession, signIn } from 'next-auth/react'
 
 export function VHelp({ message }) {
   return <div className="invalid-feedback">{message}</div>
@@ -36,6 +37,10 @@ const validationSchema = yup.object({
 })
 
 export default function ListForm({ list }) {
+  const {data: session } = useSession()
+  if(!session){
+    signIn(undefined, {callbackUrl: '/movie-lists'})
+  }
   let { mutate } = useSWRConfig()
   let router = useRouter()
   let is_new = router.query.list === undefined

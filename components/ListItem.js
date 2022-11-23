@@ -1,9 +1,11 @@
 import { format } from "date-fns";
 import Link from "next/link";
 import DeleteModal from "./DeleteModal";
+import {useSession} from "next-auth/react"
 
 export default function ListItem({ order, list }) {
-
+  const {data: session} = useSession()
+  
   return (
     <div className="d-flex my-3">
       <div className="flex-shrink-0 text-center">
@@ -18,12 +20,16 @@ export default function ListItem({ order, list }) {
         </p>
         <DeleteModal order={order} list={list}></DeleteModal>
         <div>
-          <Link href={`/movie-lists/${list._id}/edit`}>
-            <a className="btn btn-secondary">Edit list</a>
-          </Link>
-          <a className="btn btn-danger" data-bs-toggle="modal" data-bs-target={`#deleteMovieModal_${order}`}>
-            Delete
-          </a>
+          { 
+            session?.user.email == list.owner && <>
+              <Link href={`/movie-lists/${list._id}/edit`}>
+                <a className="btn btn-secondary">Edit list</a>
+              </Link>
+              <a className="btn btn-danger" data-bs-toggle="modal" data-bs-target={`#deleteMovieModal_${order}`}>
+                Delete
+              </a>
+            </>
+          }
           <Link href={` /movie-lists/${list._id}/movies`}>
             <a className="btn btn-primary">See movies</a>
           </Link>

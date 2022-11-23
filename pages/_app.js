@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import "react-datepicker/dist/react-datepicker.css"
 import { useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
-
+import {SessionProvider} from 'next-auth/react'
 
 export const fetcher = (...args) => fetch(...args).then(async res => {
   return JSON.parse(await res.text(), (key, value) => {
@@ -17,15 +17,15 @@ export const fetcher = (...args) => fetch(...args).then(async res => {
   })
 })
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: {session, ...pageProps} }) {
   useEffect(() => { // Make sure this function runs in the the browser
     require("bootstrap/dist/js/bootstrap.bundle.min.js")
   }, [])
 
-  return <>
+  return <SessionProvider session={session}>
     <ToastContainer />
     <Component {...pageProps} />
-  </>
+  </SessionProvider>
   
   
 }

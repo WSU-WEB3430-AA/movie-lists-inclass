@@ -5,7 +5,7 @@ import PageHeader from "../../../../../components/PageHeader"
 import Layout from "../../../../../components/Layout"
 import { fetcher } from "../../../../_app"
 
-export default function EditList(){
+export default function EditMovie(){
   let { list: lid, movie: mid } = useRouter().query
   const { data, error } = useSWR(`/api/lists/${lid}/movies/${mid}`, fetcher)
 

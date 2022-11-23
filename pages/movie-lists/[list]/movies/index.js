@@ -9,7 +9,7 @@ import Breadcrumbs from "../../../../components/Breadcrumbs"
 
 export default function Movies() {
   let router = useRouter()
-  if (!router.isReady) return <>Loading</>
+  // if (!router.isReady) return <>Loading</>
   const { data, error } = useSWR(`/api/lists/${router.query.list}/movies`, fetcher)
   if (error) return <div>Failed to load data </div>
   if (!data) return <div>Loading...</div>
